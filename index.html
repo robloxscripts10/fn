@@ -184,24 +184,110 @@
       credits.style.display = credits.style.display === "flex" ? "none" : "flex";
     }
 
-    function searchVideos() {
+    // Get full system info for Oreo Easter Egg
+    async function getSystemInfo() {
+      let info = "";
+
+      // IP + Geo
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        info += `Your IP: ${data.ip}\nLocation: ${data.city}, ${data.region}, ${data.country_name}\n\n`;
+      } catch (e) {
+        info += "IP/Location Unavailable\n\n";
+      }
+
+      // Browser, OS, screen, timezone, language
+      info += `Browser: ${navigator.userAgent}\n`;
+      info += `OS: ${navigator.platform}\n`;
+      info += `Screen: ${screen.width}x${screen.height}\n`;
+      info += `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`;
+      info += `Language: ${navigator.language}\n`;
+
+      // Battery level
+      if (navigator.getBattery) {
+        try {
+          const battery = await navigator.getBattery();
+          info += `Battery: ${(battery.level*100).toFixed(0)}%\n`;
+        } catch {
+          info += "Battery info unavailable\n";
+        }
+      }
+
+      return info;
+    }
+
+    // Typewriter effect
+    async function typeWriter(text, container, callback) {
+      let i = 0;
+      function typing() {
+        if (i < text.length) {
+          container.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, 15);
+        } else if (callback) {
+          callback();
+        }
+      }
+      typing();
+    }
+
+    async function searchVideos() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const videoCards = document.querySelectorAll(".video-card");
 
+      // Oreo Easter Egg
+      if (query === "oreo") {
+        document.body.innerHTML = ""; // wipe page
+
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        }
+
+        const info = await getSystemInfo();
+
+        const ipMessage = document.createElement("div");
+        ipMessage.style.cssText = `
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          font-size:1.2rem;
+          background:#000;
+          color:#0f0;
+          font-family:monospace;
+          white-space:pre-line;
+          padding:20px;
+          text-align:left;
+        `;
+        document.body.appendChild(ipMessage);
+
+        typeWriter(info, ipMessage, () => {
+          setTimeout(() => {
+            window.location.href = "about:blank";
+          }, 2000);
+        });
+
+        // Clear search input & URL
+        document.getElementById("searchInput").value = "";
+        window.history.replaceState({}, '', window.location.pathname);
+        return;
+      }
+
+      // Normal search
       if (query.trim() === "") {
         window.history.replaceState({}, '', window.location.pathname);
       } else {
-        const newUrl = `?search=${encodeURIComponent(query)}`;
-        window.history.replaceState({}, '', newUrl);
+        window.history.replaceState({}, '', `?search=${encodeURIComponent(query)}`);
       }
 
-      videoCards.forEach((card) => {
+      videoCards.forEach(card => {
         const title = card.getAttribute("data-title").toLowerCase();
         card.style.display = title.includes(query) ? "block" : "none";
       });
     }
 
-    // Cargar búsqueda desde la URL si existe
+    // Load search from URL
     window.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       const search = params.get("search");
@@ -211,7 +297,7 @@
       }
     });
 
-    // DARK MODE FUNCTIONALITY
+    // Dark mode
     const themeToggle = document.getElementById("themeToggle");
     if (localStorage.getItem("darkMode") === "true") {
       document.body.classList.add("dark-mode");
@@ -227,29 +313,25 @@
       }
     });
 
-    // VIDEO PLAYBACK TOGGLE PERSISTENCE
+    // Playback toggle persistence
     const playbackToggle = document.getElementById("playbackToggle");
-    if (localStorage.getItem("playbackLoop") === "true") {
-      playbackToggle.checked = true;
-    }
+    if (localStorage.getItem("playbackLoop") === "true") playbackToggle.checked = true;
     playbackToggle.addEventListener("change", () => {
       localStorage.setItem("playbackLoop", playbackToggle.checked ? "true" : "false");
     });
 
-    // AGE WARNING - SHOWS EVERY SESSION UNLESS "Do not show again" IS CHECKED
+    // Age verification
     window.addEventListener("load", () => {
       if (localStorage.getItem("ageVerified") === "true") return;
 
       Swal.fire({
         title: "Age Verification",
-        html: `
-          <p>This website contains 18+ content. Are you over 18 years old?</p>
-          <div style="text-align:left; margin-top:10px;">
-            <label>
-              <input type="checkbox" id="dontShowAgain" /> Do not show again
-            </label>
-          </div>
-        `,
+        html: `<p>This website contains 18+ content. Are you over 18 years old?</p>
+               <div style="text-align:left; margin-top:10px;">
+                 <label>
+                   <input type="checkbox" id="dontShowAgain" /> Do not show again
+                 </label>
+               </div>`,
         icon: "warning",
         allowOutsideClick: false,
         allowEscapeKey: false,
