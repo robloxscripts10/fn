@@ -1,1 +1,96 @@
-diddy a
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrusel Mango y Porro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f9f9f9;
+    }
+    .carousel {
+      position: relative;
+      width: 90%;
+      max-width: 600px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.4s ease-in-out;
+    }
+    .slide {
+      min-width: 100%;
+      height: 300px;
+      background: #ffd54f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .slide:nth-child(2) { background: #ffb74d; }
+    .slide:nth-child(3) { background: #ff8a65; }
+    .slide:nth-child(4) { background: #ba68c8; }
+    .slide:nth-child(5) { background: #4db6ac; }
+    .btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+    .btn.prev { left: 10px; }
+    .btn.next { right: 10px; }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="slide">El mango se fuma como un porro tropical 🌴</div>
+      <div class="slide">Un porro de mango sabe a verano eterno ☀️</div>
+      <div class="slide">Entre mango y porro, todo es más sabroso 😎</div>
+      <div class="slide">El porro con mango es poesía callejera 🎶</div>
+      <div class="slide">Si la vida te da mango, hazte un porro 🍃</div>
+    </div>
+    <button class="btn prev">&#10094;</button>
+    <button class="btn next">&#10095;</button>
+  </div>
+
+  <script>
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    const prevBtn = document.querySelector('.btn.prev');
+    const nextBtn = document.querySelector('.btn.next');
+
+    let index = 0;
+
+    function updateSlide() {
+      track.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      index = (index + 1) % slides.length;
+      updateSlide();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      index = (index - 1 + slides.length) % slides.length;
+      updateSlide();
+    });
+  </script>
+</body>
+</html>
