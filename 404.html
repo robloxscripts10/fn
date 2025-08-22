@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://files.catbox.moe/vnpuob.png">
+
+  <style>
+    /* Basic page styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: #333;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 5em;
+      margin: 0.2em 0;
+    }
+
+    p {
+      font-size: 1.3em;
+      margin: 0.5em 0;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      background: #007bff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      background: #0056b3;
+    }
+
+    img {
+      width: 150px;
+      margin-bottom: 20px;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-20px) rotate(-5deg); }
+      50% { transform: translateY(0px) rotate(0deg); }
+      75% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Notification container */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(100px);
+      animation: slideIn 0.5s forwards;
+      font-family: 'Arial', sans-serif;
+      z-index: 1000;
+    }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideOut {
+      to { opacity: 0; transform: translateY(100px); }
+    }
+
+    .notification-content {
+      padding: 15px;
+    }
+
+    .notification h3 {
+      margin: 0;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .notification p {
+      margin: 0;
+      font-size: 0.95em;
+      margin-bottom: 10px;
+    }
+
+    .notification button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+      animation: pulse 1.5s infinite;
+    }
+
+    .notification button:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .progress-bar {
+      height: 5px;
+      background: #FFD700;
+      width: 0%;
+      transition: width 7s linear;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated 404 content -->
+  <img src="https://files.catbox.moe/vnpuob.png" alt="Error Icon">
+  <h1>404</h1>
+  <p>Oops! The page you’re looking for doesn’t exist.</p>
+  <a href="/">Go back home</a>
+
+  <!-- Notification -->
+  <div class="notification" id="shopNotification">
+    <div class="notification-content">
+      <h3>Check out our store!</h3>
+      <p>Purchase our premium videos</p>
+      <button id="shopBtn">Open Shop</button>
+    </div>
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <script>
+    const notification = document.getElementById('shopNotification');
+    const progressBar = document.getElementById('progressBar');
+    const shopBtn = document.getElementById('shopBtn');
+
+    // Open the shop link in new tab when button clicked
+    shopBtn.addEventListener('click', () => {
+      window.open('https://firstfans.sellauth.com', '_blank');
+    });
+
+    // Start the progress bar animation
+    setTimeout(() => {
+      progressBar.style.width = '100%';
+    }, 50); // slight delay to trigger transition
+
+    // Animate disappearance after 7 seconds
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.5s forwards';
+      setTimeout(() => notification.remove(), 500); // remove from DOM after fade out
+    }, 7000);
+  </script>
+</body>
+</html>
