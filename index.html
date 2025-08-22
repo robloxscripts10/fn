@@ -568,7 +568,6 @@
     // 2. Detect debugger timing
     setInterval(() => {
         const start = performance.now();
-        debugger; // pauses if DevTools is open
         const end = performance.now();
         if (end - start > 100) {
             wipePage();
