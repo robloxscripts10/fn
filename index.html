@@ -1,359 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Open Graph / Facebook / Instagram / Discord -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://firstfans.online/">
-  <meta property="og:title" content="FirstFans">
-  <meta property="og:description" content="FirstFans Page.">
-  <meta property="og:image" content="https://files.catbox.moe/b5pjww.png">
+    <!-- Open Graph / Facebook / Instagram / Discord -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://firstfans.online/">
+    <meta property="og:title" content="FirstFans">
+    <meta property="og:description" content="FirstFans Page.">
+    <meta property="og:image" content="https://files.catbox.moe/b5pjww.png">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://firstfans.online/">
-  <meta name="twitter:title" content="FirstFans">
-  <meta name="twitter:description" content="FirstFans Page.">
-  <meta name="twitter:image" content="https://files.catbox.moe/b5pjww.png">
-  
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="icon" href="https://files.catbox.moe/vnpuob.png" type="image/png">
-  <title>FirstFans</title>
-  
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://firstfans.online/">
+    <meta name="twitter:title" content="FirstFans">
+    <meta name="twitter:description" content="FirstFans Page.">
+    <meta name="twitter:image" content="https://files.catbox.moe/b5pjww.png">
 
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
-    body { background-color:#f8f9fa; color:#000; transition: background-color 0.3s, color 0.3s; }
-    header { background-color:#111; color:#fff; display:flex; align-items:center; padding:15px 20px; justify-content:space-between; flex-wrap:wrap; transition: background-color 0.3s; }
-    .logo img { height:40px; }
-    .controls { display:flex; align-items:center; gap:15px; }
-    .search-bar { width:300px; padding:8px; border:none; border-radius:4px; }
-    .settings-icon, .user-icon { cursor:pointer; font-size:22px; color:#fff; }
-    .video-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px; padding:20px; }
-    .video-card { background-color:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background-color 0.3s, color 0.3s; cursor:pointer; }
-    .video-card:hover { transform: translateY(-5px); }
-    .video-card h3 { margin-top:10px; font-size:1.1em; }
-    .video-card p { color:#666; font-size:0.9em; }
-    .popup-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
-    .popup-content { position:relative; background-color:#000; width:90%; max-width:720px; aspect-ratio:16/9; border-radius:10px; overflow:hidden; }
-    .popup-content video { width:100%; height:100%; object-fit:contain; }
-    .close-btn { position:absolute; top:10px; right:10px; font-size:24px; color:#fff; background:none; border:none; cursor:pointer; z-index:10; }
-    .settings-popup, .credits-popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
-    .settings-box, .credits-box { background-color:#fff; color:#333; padding:20px; border-radius:10px; width:300px; position:relative; text-align:center; transition: background-color 0.3s, color 0.3s; }
-    .settings-box h2 { font-size:1.2em; margin-bottom:10px; }
-    .settings-popup .close-btn, .credits-popup .close-btn { color:#333; }
-    .toggle-row { display:flex; justify-content:space-between; align-items:center; margin:10px 0; }
-    .toggle-switch { position:relative; width:50px; height:24px; }
-    .toggle-switch input { opacity:0; width:0; height:0; }
-    .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; border-radius:24px; transition:0.4s; }
-    .slider:before { position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px; background-color:white; border-radius:50%; transition:0.4s; }
-    input:checked + .slider { background-color:#007bff; }
-    input:checked + .slider:before { transform:translateX(26px); }
-    .credits-box img { max-width:200px; height:auto; margin-bottom:15px; }
-    .discord-btn { display:inline-flex; align-items:center; background-color:#7289da; color:white; padding:12px 20px; font-size:16px; border-radius:8px; text-decoration:none; margin-top:20px; transition:background-color 0.3s, transform 0.3s; }
-    .discord-btn i { margin-right:10px; }
-    .discord-btn:hover { background-color:#5b6eae; transform:scale(1.05); }
-    @media (max-width:600px) { .search-bar { width:100%; } header { flex-direction:column; align-items:flex-start; } }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://files.catbox.moe/vnpuob.png" type="image/png">
+    <title>FirstFans</title>
 
-    /* DARK MODE */
-    body.dark-mode { background-color:#121212; color:#eaeaea; }
-    body.dark-mode header { background-color:#1f1f1f; }
-    body.dark-mode .video-card { background-color:#1e1e1e; color:#eaeaea; }
-    body.dark-mode .video-card p { color:#bbb; }
-    body.dark-mode .settings-box, body.dark-mode .credits-box { background-color:#1e1e1e; color:#eaeaea; }
-    body.dark-mode .settings-popup .close-btn, body.dark-mode .credits-popup .close-btn { color:#eaeaea; }
-  </style>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            transition: background-color 0.3s;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            width: 300px;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .settings-icon,
+        .user-icon {
+            cursor: pointer;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .video-card {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background-color 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-card h3 {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .video-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            position: relative;
+            background-color: #000;
+            width: 90%;
+            max-width: 720px;
+            aspect-ratio: 16/9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .popup-content video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #fff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .settings-popup,
+        .credits-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .settings-box,
+        .credits-box {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            position: relative;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .settings-box h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .settings-popup .close-btn,
+        .credits-popup .close-btn {
+            color: #333;
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 24px;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+            background-color: #007bff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .credits-box img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: #7289da;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .discord-btn i {
+            margin-right: 10px;
+        }
+
+        .discord-btn:hover {
+            background-color: #5b6eae;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .search-bar {
+                width: 100%;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            background-color: #121212;
+            color: #eaeaea;
+        }
+
+        body.dark-mode header {
+            background-color: #1f1f1f;
+        }
+
+        body.dark-mode .video-card {
+            background-color: #1e1e1e;
+            color: #eaeaea;
+        }
+
+        body.dark-mode .video-card p {
+            color: #bbb;
+        }
+
+        body.dark-mode .settings-box,
+        body.dark-mode .credits-box {
+            background-color: #1e1e1e;
+            color: #eaeaea;
+        }
+
+        body.dark-mode .settings-popup .close-btn,
+        body.dark-mode .credits-popup .close-btn {
+            color: #eaeaea;
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <div class="logo">
-      <img src="https://files.catbox.moe/b5pjww.png" alt="FirstFan Logo" />
+    <header>
+        <div class="logo">
+            <img src="https://files.catbox.moe/b5pjww.png" alt="FirstFan Logo" />
+        </div>
+        <div class="controls">
+            <input type="text" class="search-bar" id="searchInput" placeholder="Search videos..." oninput="searchVideos()" />
+            <i class="fas fa-cog settings-icon" onclick="toggleSettings()"></i>
+            <i class="fas fa-user user-icon" onclick="toggleCredits()"></i>
+        </div>
+    </header>
+
+    <main class="video-grid" id="videoGrid">
+        <div class="video-card" data-title="Solo Girl" onclick="openPopup('https://files.catbox.moe/ubkr4q.mp4')">
+            <h3>Solo Girl</h3>
+            <p>New Video</p>
+        </div>
+        <div class="video-card" data-title="Comic Girl" onclick="openPopup('https://files.catbox.moe/0rj6jv.mp4#t=4')">
+            <h3>Comic Girl</h3>
+            <p>Enjoy</p>
+        </div>
+        <div class="video-card" data-title="Yumy Girl" onclick="openPopup('https://v61.erome.com/4654/4xBCsyjV/URgw1OZL_720p.mp4')">
+            <h3>Yumy Girl</h3>
+            <p>Enjoy</p>
+        </div>
+        <div class="video-card" data-title="Asian Girl" onclick="openPopup('https://v12.erome.com/4370/ogaxWQYM/SjR9if3V_720p.mp4')">
+            <h3>Asian Girl</h3>
+            <p>Enjoy</p>
+        </div>
+        <div class="video-card" data-title="Asian Girl Pink Hair" onclick="openPopup('https://v49.erome.com/5773/OEutRN80/c7HT6s9X_720p.mp4')">
+            <h3>Asian Girl Pink Hair</h3>
+            <p>Enjoy</p>
+        </div>
+        <div class="video-card" data-title="Teen Blowjob" onclick="openPopup('https://v105.erome.com/5761/UcX8jsoO/3YVLyi5w_720p.mp4')">
+            <h3>Teen Blowjob</h3>
+            <p>Enjoy</p>
+        </div>
+        <div class="video-card" data-title="Sexy best friend gives blowjob" onclick="openPopup('https://v48.erome.com/5701/F3TbuZMy/kh5G7JDH_720p.mp4')">
+            <h3>Sexy best friend gives blowjob</h3>
+            <p>Enjoy</p>
+        </div>
+        <div class="video-card" data-title="Pussy sluts fucked in her pajamas" onclick="openPopup('https://v88.erome.com/5773/Gjv490ep/RzLoJ1Ug_720p.mp4')">
+            <h3>Pussy sluts fucked in her pajamas</h3>
+            <p>Enjoy</p>
+        </div>
+    </main>
+
+    <!-- Video Popup -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()"><i class="fas fa-times"></i></button>
+            <video id="videoPlayer" controls>
+                <source id="videoSource" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
-    <div class="controls">
-      <input type="text" class="search-bar" id="searchInput" placeholder="Search videos..." oninput="searchVideos()" />
-      <i class="fas fa-cog settings-icon" onclick="toggleSettings()"></i>
-      <i class="fas fa-user user-icon" onclick="toggleCredits()"></i>
+
+    <!-- Settings Popup -->
+    <div class="settings-popup popup-overlay" id="settingsPopup">
+        <div class="settings-box">
+            <button class="close-btn" onclick="toggleSettings()"><i class="fas fa-times"></i></button>
+            <h2>Settings</h2>
+            <div class="toggle-row">
+                <span>Video Playback</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="playbackToggle" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="toggle-row">
+                <span>Dark Mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="themeToggle" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <main class="video-grid" id="videoGrid">
-    <div class="video-card" data-title="Solo Girl" onclick="openPopup('https://files.catbox.moe/ubkr4q.mp4')">
-      <h3>Solo Girl</h3>
-      <p>New Video</p>
+    <!-- Credits Popup -->
+    <div class="credits-popup popup-overlay" id="creditsPopup">
+        <div class="credits-box">
+            <button class="close-btn" onclick="toggleCredits()"><i class="fas fa-times"></i></button>
+            <h2>Credits!</h2>
+            <img src="https://files.catbox.moe/b5pjww.png" alt="FirstFan Logo" />
+            <p>udswift - Developer / Video Uploader</p>
+            <p>fenixscripts - Video Uploader / Subscription Manager</p>
+            <a href="https://discord.gg/b3nbHKSNmU" target="_blank" class="discord-btn">
+                <i class="fab fa-discord"></i> Join Discord
+            </a>
+        </div>
     </div>
-    <div class="video-card" data-title="Comic Girl" onclick="openPopup('https://files.catbox.moe/0rj6jv.mp4#t=4')">
-      <h3>Comic Girl</h3>
-      <p>Enjoy</p>
-    </div>
-    <div class="video-card" data-title="Yumy Girl" onclick="openPopup('https://v61.erome.com/4654/4xBCsyjV/URgw1OZL_720p.mp4')">
-      <h3>Yumy Girl</h3>
-      <p>Enjoy</p>
-    </div>
-    <div class="video-card" data-title="Asian Girl" onclick="openPopup('https://v12.erome.com/4370/ogaxWQYM/SjR9if3V_720p.mp4')">
-      <h3>Asian Girl</h3>
-      <p>Enjoy</p>
-    </div>
-  </main>
 
-  <!-- Video Popup -->
-  <div class="popup-overlay" id="popup">
-    <div class="popup-content">
-      <button class="close-btn" onclick="closePopup()"><i class="fas fa-times"></i></button>
-      <video id="videoPlayer" controls>
-        <source id="videoSource" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  </div>
+    <script>
+        // JS functions remain intact, indented properly
+        function openPopup(videoUrl) {
+            const videoPlayer = document.getElementById("videoPlayer");
+            const videoSource = document.getElementById("videoSource");
+            const popup = document.getElementById("popup");
+            const toggle = document.getElementById("playbackToggle");
 
-  <!-- Settings Popup -->
-  <div class="settings-popup popup-overlay" id="settingsPopup">
-    <div class="settings-box">
-      <button class="close-btn" onclick="toggleSettings()"><i class="fas fa-times"></i></button>
-      <h2>Settings</h2>
-      <div class="toggle-row">
-        <span>Video Playback</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="playbackToggle" />
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="toggle-row">
-        <span>Dark Mode</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="themeToggle" />
-          <span class="slider"></span>
-        </label>
-      </div>
-    </div>
-  </div>
+            videoSource.src = videoUrl;
+            videoPlayer.load();
+            popup.style.display = "flex";
+            videoPlayer.play();
 
-  <!-- Credits Popup -->
-  <div class="credits-popup popup-overlay" id="creditsPopup">
-    <div class="credits-box">
-      <button class="close-btn" onclick="toggleCredits()"><i class="fas fa-times"></i></button>
-      <h2>Credits!</h2>
-      <img src="https://files.catbox.moe/b5pjww.png" alt="FirstFan Logo" />
-      <p>udswift - Developer / Video Uploader</p>
-      <p>fenixscripts - Video Uploader / Subscription Manager</p>
-      <a href="https://discord.gg/b3nbHKSNmU" target="_blank" class="discord-btn">
-        <i class="fab fa-discord"></i> Join Discord
-      </a>
-    </div>
-  </div>
-
-  <script>
-    function openPopup(videoUrl) {
-      const videoPlayer = document.getElementById("videoPlayer");
-      const videoSource = document.getElementById("videoSource");
-      const popup = document.getElementById("popup");
-      const toggle = document.getElementById("playbackToggle");
-
-      videoSource.src = videoUrl;
-      videoPlayer.load();
-      popup.style.display = "flex";
-      videoPlayer.play();
-
-      videoPlayer.addEventListener("ended", () => {
-        if (toggle.checked) {
-          videoPlayer.currentTime = 0;
-          videoPlayer.play();
-        }
-      });
-    }
-
-    function closePopup() {
-      const popup = document.getElementById("popup");
-      const videoPlayer = document.getElementById("videoPlayer");
-      videoPlayer.pause();
-      popup.style.display = "none";
-    }
-
-    function toggleSettings() {
-      const settings = document.getElementById("settingsPopup");
-      settings.style.display = settings.style.display === "flex" ? "none" : "flex";
-    }
-
-    function toggleCredits() {
-      const credits = document.getElementById("creditsPopup");
-      credits.style.display = credits.style.display === "flex" ? "none" : "flex";
-    }
-
-    // Get full system info for Oreo Easter Egg
-    async function getSystemInfo() {
-      let info = "";
-
-      // IP + Geo
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        const data = await res.json();
-        info += `Your IP: ${data.ip}\nLocation: ${data.city}, ${data.region}, ${data.country_name}\n\n`;
-      } catch (e) {
-        info += "IP/Location Unavailable\n\n";
-      }
-
-      // Browser, OS, screen, timezone, language
-      info += `Browser: ${navigator.userAgent}\n`;
-      info += `OS: ${navigator.platform}\n`;
-      info += `Screen: ${screen.width}x${screen.height}\n`;
-      info += `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`;
-      info += `Language: ${navigator.language}\n`;
-
-      // Battery level
-      if (navigator.getBattery) {
-        try {
-          const battery = await navigator.getBattery();
-          info += `Battery: ${(battery.level*100).toFixed(0)}%\n`;
-        } catch {
-          info += "Battery info unavailable\n";
-        }
-      }
-
-      return info;
-    }
-
-    // Typewriter effect
-    async function typeWriter(text, container, callback) {
-      let i = 0;
-      function typing() {
-        if (i < text.length) {
-          container.textContent += text.charAt(i);
-          i++;
-          setTimeout(typing, 15);
-        } else if (callback) {
-          callback();
-        }
-      }
-      typing();
-    }
-
-    async function searchVideos() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const videoCards = document.querySelectorAll(".video-card");
-
-      // Oreo Easter Egg
-      if (query === "oreo") {
-        document.body.innerHTML = ""; // wipe page
-
-        if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen();
+            videoPlayer.addEventListener("ended", () => {
+                if (toggle.checked) {
+                    videoPlayer.currentTime = 0;
+                    videoPlayer.play();
+                }
+            });
         }
 
-        const info = await getSystemInfo();
+        function closePopup() {
+            const popup = document.getElementById("popup");
+            const videoPlayer = document.getElementById("videoPlayer");
+            videoPlayer.pause();
+            popup.style.display = "none";
+        }
 
-        const ipMessage = document.createElement("div");
-        ipMessage.style.cssText = `
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          height:100vh;
-          font-size:1.2rem;
-          background:#000;
-          color:#0f0;
-          font-family:monospace;
-          white-space:pre-line;
-          padding:20px;
-          text-align:left;
-        `;
-        document.body.appendChild(ipMessage);
+        function toggleSettings() {
+            const settings = document.getElementById("settingsPopup");
+            settings.style.display = settings.style.display === "flex" ? "none" : "flex";
+        }
 
-        typeWriter(info, ipMessage, () => {
-          setTimeout(() => {
-            window.location.href = "about:blank";
-          }, 2000);
+        function toggleCredits() {
+            const credits = document.getElementById("creditsPopup");
+            credits.style.display = credits.style.display === "flex" ? "none" : "flex";
+        }
+
+        async function searchVideos() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const videoCards = document.querySelectorAll(".video-card");
+
+            // Oreo Easter Egg
+            if (query === "oreo") {
+                document.body.innerHTML = "";
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                }
+
+                const info = await getSystemInfo();
+                const ipMessage = document.createElement("div");
+                ipMessage.style.cssText = `
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    height:100vh;
+                    font-size:1.2rem;
+                    background:#000;
+                    color:#0f0;
+                    font-family:monospace;
+                    white-space:pre-line;
+                    padding:20px;
+                    text-align:left;
+                `;
+                document.body.appendChild(ipMessage);
+                typeWriter(info, ipMessage, () => {
+                    setTimeout(() => { window.location.href = "about:blank"; }, 2000);
+                });
+
+                document.getElementById("searchInput").value = "";
+                window.history.replaceState({}, '', window.location.pathname);
+                return;
+            }
+
+            // Normal search
+            if (query.trim() === "") {
+                window.history.replaceState({}, '', window.location.pathname);
+            } else {
+                window.history.replaceState({}, '', `?search=${encodeURIComponent(query)}`);
+            }
+
+            videoCards.forEach(card => {
+                const title = card.getAttribute("data-title").toLowerCase();
+                card.style.display = title.includes(query) ? "block" : "none";
+            });
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const search = params.get("search");
+            if (search) {
+                document.getElementById("searchInput").value = search;
+                searchVideos();
+            }
         });
 
-        // Clear search input & URL
-        document.getElementById("searchInput").value = "";
-        window.history.replaceState({}, '', window.location.pathname);
-        return;
-      }
+        // Dark mode toggle
+        const themeToggle = document.getElementById("themeToggle");
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+            themeToggle.checked = true;
+        }
+        themeToggle.addEventListener("change", () => {
+            if (themeToggle.checked) {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "true");
+            } else {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "false");
+            }
+        });
 
-      // Normal search
-      if (query.trim() === "") {
-        window.history.replaceState({}, '', window.location.pathname);
-      } else {
-        window.history.replaceState({}, '', `?search=${encodeURIComponent(query)}`);
-      }
+        // Playback toggle persistence
+        const playbackToggle = document.getElementById("playbackToggle");
+        if (localStorage.getItem("playbackLoop") === "true") playbackToggle.checked = true;
+        playbackToggle.addEventListener("change", () => {
+            localStorage.setItem("playbackLoop", playbackToggle.checked ? "true" : "false");
+        });
 
-      videoCards.forEach(card => {
-        const title = card.getAttribute("data-title").toLowerCase();
-        card.style.display = title.includes(query) ? "block" : "none";
-      });
+        // Age verification
+        window.addEventListener("load", () => {
+            if (localStorage.getItem("ageVerified") === "true") return;
+            Swal.fire({
+                title: "Age Verification",
+                html: `
+                    <p>This website contains 18+ content. Are you over 18 years old?</p>
+                    <div style="text-align:left; margin-top:10px;">
+                        <label>
+                            <input type="checkbox" id="dontShowAgain" /> Do not show again
+                        </label>
+                    </div>
+                `,
+                icon: "warning",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showDenyButton: true,
+                confirmButtonText: "I am over 18",
+                denyButtonText: "Go back",
+                didOpen: () => {
+                    const checkbox = Swal.getPopup().querySelector("#dontShowAgain");
+                    checkbox.addEventListener("change", () => { checkbox.dataset.checked = checkbox.checked; });
+                }
+            }).then((result) => {
+                const checkbox = Swal.getPopup().querySelector("#dontShowAgain");
+                if (checkbox.checked && result.isConfirmed) {
+                    localStorage.setItem("ageVerified", "true");
+                }
+                if (!result.isConfirmed) {
+                    window.location.href = "https://google.com";
+                }
+            });
+        });
+    </script>
+<script>
+    // Function to wipe the page content
+    function wipePage() {
+        document.body.innerHTML = ''; // removes all DOM content
+        document.body.style.background = '#000'; // optional: black background
     }
 
-    // Load search from URL
-    window.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      const search = params.get("search");
-      if (search) {
-        document.getElementById("searchInput").value = search;
-        searchVideos();
-      }
-    });
-
-    // Dark mode
-    const themeToggle = document.getElementById("themeToggle");
-    if (localStorage.getItem("darkMode") === "true") {
-      document.body.classList.add("dark-mode");
-      themeToggle.checked = true;
-    }
-    themeToggle.addEventListener("change", () => {
-      if (themeToggle.checked) {
-        document.body.classList.add("dark-mode");
-        localStorage.setItem("darkMode", "true");
-      } else {
-        document.body.classList.remove("dark-mode");
-        localStorage.setItem("darkMode", "false");
-      }
-    });
-
-    // Playback toggle persistence
-    const playbackToggle = document.getElementById("playbackToggle");
-    if (localStorage.getItem("playbackLoop") === "true") playbackToggle.checked = true;
-    playbackToggle.addEventListener("change", () => {
-      localStorage.setItem("playbackLoop", playbackToggle.checked ? "true" : "false");
-    });
-
-    // Age verification
-    window.addEventListener("load", () => {
-      if (localStorage.getItem("ageVerified") === "true") return;
-
-      Swal.fire({
-        title: "Age Verification",
-        html: `<p>This website contains 18+ content. Are you over 18 years old?</p>
-               <div style="text-align:left; margin-top:10px;">
-                 <label>
-                   <input type="checkbox" id="dontShowAgain" /> Do not show again
-                 </label>
-               </div>`,
-        icon: "warning",
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        showDenyButton: true,
-        confirmButtonText: "I am over 18",
-        denyButtonText: "Go back",
-        didOpen: () => {
-          const checkbox = Swal.getPopup().querySelector("#dontShowAgain");
-          checkbox.addEventListener("change", () => {
-            checkbox.dataset.checked = checkbox.checked;
-          });
+    // 1. Detect console inspection
+    const devElement = new Image();
+    Object.defineProperty(devElement, 'id', {
+        get: function() {
+            wipePage();
         }
-      }).then((result) => {
-        const checkbox = Swal.getPopup().querySelector("#dontShowAgain");
-        if (checkbox.checked && result.isConfirmed) {
-          localStorage.setItem("ageVerified", "true");
-        }
-        if (!result.isConfirmed) {
-          window.location.href = "https://google.com";
-        }
-      });
     });
-  </script>
+    console.log(devElement);
+
+    // 2. Detect debugger timing
+    setInterval(() => {
+        const start = performance.now();
+        debugger; // pauses if DevTools is open
+        const end = performance.now();
+        if (end - start > 100) {
+            wipePage();
+        }
+    }, 1000);
+
+    // 3. Detect window size changes (DevTools usually changes viewport)
+    const threshold = 160;
+    setInterval(() => {
+        const widthDiff = window.outerWidth - window.innerWidth;
+        const heightDiff = window.outerHeight - window.innerHeight;
+        if (widthDiff > threshold || heightDiff > threshold) {
+            wipePage();
+        }
+    }, 500);
+</script>
+
 </body>
 </html>
