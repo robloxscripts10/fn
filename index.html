@@ -188,11 +188,28 @@
       const query = document.getElementById("searchInput").value.toLowerCase();
       const videoCards = document.querySelectorAll(".video-card");
 
+      if (query.trim() === "") {
+        window.history.replaceState({}, '', window.location.pathname);
+      } else {
+        const newUrl = `?search=${encodeURIComponent(query)}`;
+        window.history.replaceState({}, '', newUrl);
+      }
+
       videoCards.forEach((card) => {
         const title = card.getAttribute("data-title").toLowerCase();
         card.style.display = title.includes(query) ? "block" : "none";
       });
     }
+
+    // Cargar búsqueda desde la URL si existe
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const search = params.get("search");
+      if (search) {
+        document.getElementById("searchInput").value = search;
+        searchVideos();
+      }
+    });
 
     // DARK MODE FUNCTIONALITY
     const themeToggle = document.getElementById("themeToggle");
